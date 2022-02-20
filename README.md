@@ -43,7 +43,6 @@ You should see this
 
 Your widget is ready to use !
 
-You can configure the way the widget works in the code or from the home screen
 If you want a specific collection, type the name of the collection in the 3rd parameter from the image above. Type the url name of the collection, you can this on ME or Solanart
 
 **You can configure the widget in the code of the script by modifying the variables at the top of the code, there are explanations to help you**
