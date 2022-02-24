@@ -298,7 +298,7 @@ async function generateAPIURL() { // GENERATE API LINK WITH ARGUMENTS
       param = ""
     }
     
-    a = 'https://qzlsklfacc.medianetwork.cloud/get_nft?collection='+arg+'&page=0&limit=20&order='+param+'&fits=any&trait=&search=&min=0&max=0&listed=true&ownedby=&attrib_count=&bid=all'
+    a = 'https://api.solanart.io/get_nft?collection='+arg+'&page=0&limit=20&order='+param+'&fits=any&trait=&search=&min=0&max=0&listed=true&ownedby=&attrib_count=&bid=all'
   }
   
   return a 
