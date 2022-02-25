@@ -15,7 +15,7 @@ To get the widget :
 1. Download Scriptable for iPhone https://apps.apple.com/fr/app/scriptable/id1405459188
 
 2. Either :
-  - Download and execute this shortcut https://www.icloud.com/shortcuts/68b09b0bd49f4c678da17217230ff04b
+  - Download and execute this shortcut https://www.icloud.com/shortcuts/d993d09980494b7d87de6a46f84267e2
   - Go to your local iPhone storage
     i.    Create a folder "Scriptable"
     ii.   Create a folder "nft" inside
