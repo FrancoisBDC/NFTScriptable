@@ -49,7 +49,7 @@ You should see this
 
 Your widget is ready to use !
 
-If you want a specific collection, type the name of the collection in the 3rd parameter from the image above. Type the url name of the collection, you can this on ME or Solanart
+If you want a specific collection, type the "url name" of the collection in the 3rd parameter from the image above. You can this name from the url on ME or Solanart
 
 **You can configure the widget in the code of the script by modifying the variables at the top of the code, there are explanations to help you**
 
