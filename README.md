@@ -21,7 +21,9 @@ To get the widget :
   
   - Go to your local iPhone storage
     i.    Create a folder "Scriptable"
+
     ii.   Create a folder "nft" inside
+
     iii.  Create 2 folders inside : "recent" & "floor"
     
 4. Import NFT.js in your scriptable application, name your script NFT if not default
