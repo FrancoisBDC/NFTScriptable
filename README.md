@@ -1,5 +1,5 @@
 # NFTScriptable
-This widget support both Magic Eden and Solanart, it retreives the last nft that was listed in the collection or the cheapest listed nft.
+This widget supports both Magic Eden and Solanart, it retreives the last nft that was listed in the collection or the cheapest listed nft.
 You can also receive alerts (notifications) if the floor gets below or above certain prices or if a specific nft or nft with a specific trait was recently listed
 
 <img src="https://user-images.githubusercontent.com/71528691/154853429-22c13f90-5e65-4612-a3e1-53c3b65b1559.jpeg" width="250"> <img src="https://user-images.githubusercontent.com/71528691/154854083-0c6a158e-1390-48b4-aad7-f657d1072a0f.jpg" width="250"> 
