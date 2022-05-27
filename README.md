@@ -20,7 +20,7 @@ To get the widget :
 
     OR 
   
-    - Go to your local iPhone storage
+    - Go to your local iPhone storage ("On my iPhone")
 
       i.    Create a folder "Scriptable"
 
