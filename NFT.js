@@ -1,8 +1,8 @@
 // CONSTS //
 
 const ME = true //true if you want to scan ME, false if you want to scan Solanart
-const RECENT = true //true will sorts the nfts by the most recently listed, false will sort by price. Both in the selected marketplace
-let DEFCOLLECTION = "pixcases_for_pixtapes" 
+const RECENT = false //true will sorts the nfts by the most recently listed, false will sort by price. Both in the selected marketplace
+let DEFCOLLECTION = "solgods" 
 // the default collection that will be displayed if you dont input a specific one from the home screen
 //⚠️ the name might be different between ME and Solanart, make sure it corresponds with the first const
 const COLOR = "#e6e6e6" //custom color for text's background
@@ -10,15 +10,15 @@ const COLOR = "#e6e6e6" //custom color for text's background
 // ALERTS CONSTS //
 
 const FLOORALERTS = true //false if you dont want floor alerts
-// If you are scanning the recently listed items, floor alerts will make additionnal requests that may result in more data/ battery consumption
+
 
 const TITLESALERTS = true //false if you dont want alerts if specific nfts are listed 
-// Be aware that of you are scanning the floor, title alerts will make additionnal requests that may result in more data/ battery consumption 
 
-const FLOORINF = 0.027 //floor alert will be triggered if floor falls bellow this price
-const FLOORSUP = 3 //same but will be triggered if floor gets above this price  
+
+const FLOORINF = 5 //floor alert will be triggered if floor falls bellow this price
+const FLOORSUP = 10 //same but will be triggered if floor gets above this price  
 // 
-const TITLES = ["let it be"] 
+const TITLES = ["toxic"] 
 // const TITLES = ["boo tape c90"] WORKS WITH ATTRIBUTES TOO
 
 // write the names of the nfts you want, its not case sensitive and you dont need to write the whole name, if the title is "a nickel and a nail", its enough if you write "a nickel and", there is probably only one song with this name
@@ -33,10 +33,11 @@ if (ME) {
   directLink = "https://solanart.io/nft/"
 }
 
+
 const files = FileManager.local()
 const filePath = files.bookmarkedPath("nft") 
 
-// check of user asked a specific collection from home screen
+// check if user asked a specific collection from home screen
 let arg = args.widgetParameter
 
 if (arg == null || arg == "") {
@@ -54,6 +55,7 @@ if (RECENT == true) {
   imagePath = filePath + "/floor/nft.jpg"  
   dataPath = filePath + "/floor/data.json"
 }
+
 
 
 let noInternet
@@ -113,13 +115,12 @@ async function triggerTitleNotif([infos, name]) {
     title = infos["name"]
     adress = infos["token_add"]
   }
-  price = infos["price"] + " sol"
   
-  
+  text = "The alert for the attribute \"" + name + "\" was triggered by " + title + "\nlisted for " + infos["price"] + " sol"
   
   let notifTitle = new Notification()
-  notifTitle.title= title + " was listed for " + price
-  notifTitle.body = title + " was listed for " + price + "\nclick to see the NFT"
+  notifTitle.title = name + " was listed"
+  notifTitle.body = text + "\nclick to see the NFT"
   notifTitle.openURL = directLink +  adress    
   notifTitle.identifier = "ttle"
   notifTitle.schedule()
@@ -147,7 +148,19 @@ async function createWidget(data) {
   }
   
   result = data
-  data = data[0] //[0] to obtain 1st item
+
+  if(!RECENT) {
+    if(data[0].price <= data[1].price) {
+        data = data[0]
+      } else {
+        data = data[1]
+        console.log("THE FIRST WAS BUGGED")
+        console.log(data.price)
+    }
+  } else {
+    data = data[0] //[0] to obtain 1st item
+  }
+  
 // #################
   
   if (ME) {
@@ -159,14 +172,16 @@ async function createWidget(data) {
     collectionName = arg
     imgURL = data["link_img"]
     name = data["name"]
-    address = data["token_add"]     
+    address = data["token_add"]
+       
   }  
+  price = data["price"]   
   
-  price = data["price"] 
   if(noInternet == false) {//get the image
     imgURL = encodeURI(imgURL)
     let imgReq = new Request(imgURL)
-    img = await imgReq.loadImage()     
+    img = await imgReq.loadImage()  
+    log(imagePath)   
     files.writeImage(imagePath, img)
     files.writeString(dataPath, JSON.stringify(result))     
     log("done") 
@@ -185,18 +200,6 @@ async function createWidget(data) {
       title = await titlesReq.loadJSON()
       if(ME) {
         title = title["results"]
-        
-        
-        
-        
-        
-        checkListingUrl = new Request("https://api-mainnet.magiceden.dev/v2/tokens/" +  +"/activities?offset=0&limit=1") 
-        
-        
-        
-        
-        
-        
       } else {
         title = title["items"]
       }
@@ -209,14 +212,25 @@ async function createWidget(data) {
     for(let i=0; i<title.length; i++) {
       for(let k=0; k<TITLES.length; k++) {          
         a = JSON.stringify(title[i])   
-//         log(a)    
         a = a.toLowerCase()
         let b = TITLES[k]
-//         log(a)
         if(a.includes(b.toLowerCase())) {
           if(!alerts.includes(b)) {
             // notif already triggered ?
-            triggerTitleNotif([title[i],b])
+            if(ME) {
+              checkListingUrl = new Request("https://api-mainnet.magiceden.dev/v2/tokens/" + title[i]["mintAddress"] +"/activities?offset=0&limit=1")   
+              checkListingUrl = await checkListingUrl.loadJSON()
+              checkListingUrl = checkListingUrl[0]["blockTime"]
+
+console.log(checkListingUrl)
+
+
+              if(new Date().getTime()/1000 - checkListingUrl < 900) {
+                triggerTitleNotif([title[i],b])
+              }
+            } else {
+                triggerTitleNotif([title[i],b])
+            }
           }    
         }
       }
